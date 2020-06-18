@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container my-4">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Oglasi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/dodaj-oglas">Dodaj Oglas</a>
+        </li>
+      </ul>
+      <h1 class="my-4 alert alert-primary">Izmeni Oglas:</h1>
+      <form id="izmeniOglas">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Naslov</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="Name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Cena</label>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            placeholder="Cena"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Opis</label>
+          <textarea
+            rows="5"
+            class="form-control"
+            id="description"
+            placeholder="Opis"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Kategorija</label>
+          <select id="category" class="custom-select">
+            <option value="automobili">Automobili</option>
+            <option value="nekretnine">Nekretnine</option>
+            <option value="alati">Alati</option>
+          </select>
+        </div>
+        <div class="errors"></div>
+        <button type="submit" class="btn btn-outline-success">
+          Sacuvaj promene
+        </button>
+      </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const idOglasa = parseInt(urlParams.get("id"));
+
+      //Input elementi
+      const price = document.querySelector("#price");
+      const description = document.querySelector("#description");
+      const category = document.querySelector("#category");
+      const name = document.querySelector("#name");
+
+      document
+        .getElementById("izmeniOglas")
+        .addEventListener("submit", izmeniOglas);
+
+      function izmeniOglas(e) {
+        e.preventDefault();
+        if (price.value && description.value && category.value && name.value) {
+          $.ajax({
+            url: `/izmeni-oglas?id=${idOglasa}`,
+            type: "POST",
+            data: {
+              name: name.value,
+              price: price.value,
+              description: description.value,
+              category: category.value,
+            },
+            success: (response) => {
+              console.log("dodato!");
+              window.location.replace("/");
+            },
+          });
+        } else {
+          document.querySelector(
+            ".errors"
+          ).innerHTML = `<div class="alert alert-danger" role="alert">
+                All inputs must be filled!
+                </div>`;
+        }
+      }
+
+      $.ajax({
+        url: `/oglas?id=${idOglasa}`,
+        method: "GET",
+        success: (response) => {
+          const data = JSON.parse(response);
+          console.log(data);
+          name.value = data[0].name;
+          price.value = data[0].price;
+          description.value = data[0].description;
+          category.value = data[0].category;
+        },
+      });
+    </script>
+  </body>
+</html>

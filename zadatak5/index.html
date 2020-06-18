@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+
+    <title>Document</title>
+    <style>
+      h1 {
+        font-size: 35px;
+      }
+      table {
+        background: rgb(241, 243, 255);
+      }
+      .fas {
+        cursor: pointer;
+      }
+      .fa-trash-alt {
+        color: rgb(241, 90, 90);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container my-4">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Oglasi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/dodaj-oglas">Dodaj Oglas</a>
+        </li>
+      </ul>
+      <h1 class="my-4 alert alert-primary">Najbolji oglasi na jednom mestu</h1>
+      <select id="filter" class="custom-select w-25 mb-5 d-inline-block">
+        <option selected>Svi</option>
+        <option value="automobili">Automobili</option>
+        <option value="nekretnine">Nekretnine</option>
+        <option value="alati">Alati</option>
+      </select>
+      <div class="oglasi"></div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      function obrisiOglas(id) {
+        $.ajax({
+          url: `/obrisi-oglas?id=${id}`,
+          type: "POST",
+          success: (response) => {
+            console.log("obrisano");
+            window.location.replace("/");
+          },
+        });
+      }
+
+      function sviOglasi(filter) {
+        $.ajax({
+          url: `/svi-oglasi?filter=${filter}`,
+          type: "GET",
+          data: {
+            filter: filter,
+          },
+          success: (response) => {
+            let resp = JSON.parse(response);
+            const container = document.querySelector(".oglasi");
+            let oglasi = "";
+            resp.forEach((el, i) => {
+              oglasi += `<tr>
+              <th class='text-center' scope="row">${i + 1}</th>
+              <td class='text-center'>${el.name}</td>
+              <td class='text-center'>${el.price}</td>
+              <td class='text-center'>${el.description}</td>
+              <td class='text-center'>${el.category}</td>
+              <td class='text-center'> <i onClick="obrisiOglas(${
+                el.id
+              })" class="fas fa-trash-alt"></i></td>
+              <td class='text-center'> <a href="izmeni-oglas?id=${
+                el.id
+              }"><i class="fas fa-edit"></i></a></td>
+            </tr>`;
+            });
+            const oglasiContent = `<table class="table">
+          <thead class="primary">
+            <tr>
+              <th class='text-center' scope="col">#</th>
+              <th class='text-center' scope="col">Naslov</th>
+              <th class='text-center' scope="col">Cena</th>
+              <th class='text-center' scope="col">Opis</th>
+              <th class='text-center' scope="col">Kategorija</th>
+              <th class='text-center' scope="col"></th>
+              <th class='text-center' scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            ${oglasi}
+          </tbody>
+        </table>`;
+            container.innerHTML = oglasiContent;
+          },
+        });
+      }
+
+      document
+        .getElementById("filter")
+        .addEventListener("change", function (e) {
+          sviOglasi(e.target.value);
+        });
+
+      sviOglasi("");
+    </script>
+  </body>
+</html>
