@@ -1,0 +1,10 @@
+<!ELEMENT Oglasi (Oglas)+>
+<!ELEMENT Oglas (KategorijaOglasa,DatumIsteka,Cena,TekstOglasa,Oznaka+,EmailProdavca+)>
+<!ELEMENT KategorijaOglasa (#PCDATA)>
+<!ELEMENT DatumIsteka (#PCDATA)>
+<!ELEMENT Cena (#PCDATA)>
+<!ATTLIST Cena valuta CDATA "dinar">
+<!ELEMENT TekstOglasa (#PCDATA) >
+<!ELEMENT Oznaka ANY>
+<!ELEMENT EmailProdavca (#PCDATA)>
+<!ATTLIST EmailProdavca tip (privatni|sluzbeni) #REQUIRED>
