@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE Oglasi SYSTEM "oglasi.dtd">
 <Oglasi xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://www.w3schools.com magacin.xsd">>
+         xsi:schemaLocation="http://www.w3schools.com oglasi.xsd">>
 <Oglas>
   <KategorijaOglasa>automobili</KategorijaOglasa>
   <DatumIsteka>
