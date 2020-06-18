@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Oglasi>
+<Oglas>
+  <KategorijaOglasa>automobili</KategorijaOglasa>
+  <DatumIsteka>
+    2020-08-23
+  </DatumIsteka>
+  <Cena valuta="dinar">500000</Cena>
+  <TekstOglasa>
+    VW Golf Plus Auto u odličnom stanju. Održavan i kupljen u Švajcarskoj.
+    Najbolja verzija benzin VW 1.6 motora. Potpuno zdrav i očuvan, bez nekog ulaganja. Limarski ne udaran i nije lupan.
+  </TekstOglasa>
+  <Oznaka>Volkswagen</Oznaka>
+  <EmailProdavca tip="sluzbeni">djura12@gmail.com</EmailProdavca>
+</Oglas>
+</Oglasi>
